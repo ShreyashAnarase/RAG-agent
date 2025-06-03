@@ -1,0 +1,40 @@
+.chat-container {
+    width: 80%; /* Increase width */
+    max-width: 800px; /* Limit max width */
+    height: 600px; /* Increase height */
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+}
+
+.chat-box {
+    flex-grow: 1; /* Expand to take all available space */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 10px;
+    max-height: 80vh; /* Prevent chatbox from taking full screen */
+}
+
+.input-box {
+    display: flex;
+    padding: 10px;
+    background: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.input-box input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.input-box button {
+    padding: 10px 15px;
+    background: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+

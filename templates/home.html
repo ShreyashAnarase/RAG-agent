@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ heading }}</h1>
+    <ul>
+        {% for endpoint in endpoints %}
+            <li><a href="{{ endpoint.url }}">{{ endpoint.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <!--  sends msg to current endpoint = / -->
+    <form method="post">
+        <input type="text" name="user_input" placeholder="Type something" required>
+        <button type="submit">Send</button>
+    </form>
+
+    {% if output %}
+    <h3>Output:</h3>
+    <p>{{ output }}</p>
+    {% endif %}
+</body>
+</html>
+
+
+<!-- 
+@app.get("/bot1", response_class=FileResponse)
+async def home(request: Request):
+    # routes = get_routes()
+    data = {
+        "title": "Home Page",
+        "heading": "Welcome"
+    }
+    return templates.TemplateResponse("home.html", {"request": request, **data})
+
+@app.post("/bot1", response_class=HTMLResponse)
+async def process_input(request: Request, user_input: str = Form(...)):
+    bot_resp = bot_response(user_input)
+    print( bot_resp)
+    return templates.TemplateResponse("home.html", {"request": request, "output": bot_resp}) -->
