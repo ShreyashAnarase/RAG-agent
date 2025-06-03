@@ -3,10 +3,6 @@ Running the APP
 ------------------------------------------
 Activate virtual environment IN APP directory     .venv  -> source .venv/bin/activate 
 
-Run together using Makefile          make start-all
-
-
-OR 
 
 FastAPI app                 uvicorn main:app --reload
 Chunking worker             python3 chunking_worker.py
@@ -14,9 +10,7 @@ Embedding worker            python3 embedding_worker.py
 Kafka       Start manually ,         
 All parameters                  config.py                    
 
--- Add more workers
---start-summarizer:
-	tmux new-window -t ragapp:3 -n summarizer 'python summarizer_worker.py'
+
 
 
 Current files used in the RAG chat app
@@ -39,24 +33,6 @@ Current files used in the RAG chat app
 New design after integrating Kakfka  vs Old design 
 ------------
  upload → chunk → embed → store, all done asynchronously via Kafka.
-
-                     Differences 
-Manual .md file loading          User uploads through UI via /upload-doc                
-One big process                  Multiple lightweight Kafka workers
-Blocking                        Async, streaming, real-time
-No separation of concerns       Clearly defined responsibilities
-No retry/failure management      Kafka lets you retry + log errors
-
-
-Old Design  -Doesnt scale well 
-----------------------------X----------------------------X----------------------------X
-monolithic and synchronous:
-	1.	Manually drop .md files into a templates/ folder.
-	2.	Run main() to:
-	•	Load all markdown files.
-	•	Split them into chunks.
-	•	Embed and store them in ChromaDB using Chroma.from_documents(...).
-
 
     
 
@@ -91,13 +67,6 @@ Find & kill the process
 lsof -i :8000 → kill -9 <PID>
 
 
-
-
-
-FASTAPI
-Lightweight & Fast 🚀 (Built on uvloop and httptools)
-Asynchronous & Supports WebSockets 🔄
-Production-Ready ✅
 
 
 
