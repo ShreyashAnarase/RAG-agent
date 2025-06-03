@@ -2,12 +2,11 @@
 *
 
 !.gitignore
-!app/
-!workers/
-!static/
-!templates/
+!app/** */
+!workers/** */
+!static/** */
+!templates/** */
 
 !requirements.txt
 !README
-!Makefile
 !pdf_extractor.py
