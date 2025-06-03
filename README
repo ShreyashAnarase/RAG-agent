@@ -1,0 +1,105 @@
+
+Running the APP
+------------------------------------------
+Activate virtual environment IN APP directory     .venv  -> source .venv/bin/activate 
+
+Run together using Makefile          make start-all
+
+
+OR 
+
+FastAPI app                 uvicorn main:app --reload
+Chunking worker             python3 chunking_worker.py
+Embedding worker            python3 embedding_worker.py
+Kafka       Start manually ,         
+All parameters                  config.py                    
+
+-- Add more workers
+--start-summarizer:
+	tmux new-window -t ragapp:3 -n summarizer 'python summarizer_worker.py'
+
+
+Current files used in the RAG chat app
+------------------------------------------
+    main.py calls 
+    Lchain.py 
+   kafka_producer.py   -> A wrapper class To save messages to a Kafka topic
+   kafka_consumer.py  
+   chunking_worker.py   -> consumes from uploded_docs topic -> splits into chunks -> saves to embedding topic 
+   embedding_worker.py      -> consumes from embed topic -> embeds chunk -> saves to vector DB 
+
+    Frontend files - templates/ , /static/
+   templates/chatbox.html    -> serves the UI for interacting with the RAG tool 
+
+    Context Saved to 
+
+
+
+
+New design after integrating Kakfka  vs Old design 
+------------
+ upload → chunk → embed → store, all done asynchronously via Kafka.
+
+                     Differences 
+Manual .md file loading          User uploads through UI via /upload-doc                
+One big process                  Multiple lightweight Kafka workers
+Blocking                        Async, streaming, real-time
+No separation of concerns       Clearly defined responsibilities
+No retry/failure management      Kafka lets you retry + log errors
+
+
+Old Design  -Doesnt scale well 
+----------------------------X----------------------------X----------------------------X
+monolithic and synchronous:
+	1.	Manually drop .md files into a templates/ folder.
+	2.	Run main() to:
+	•	Load all markdown files.
+	•	Split them into chunks.
+	•	Embed and store them in ChromaDB using Chroma.from_documents(...).
+
+
+    
+
+One time Use for inserting into Chroma Vector DB 
+    create_DB.py
+----------------------------X----------------------------X----------------------------X
+
+
+Other files for experimentation. 
+    embedding.py, HelloW.py, demo.py
+
+----------------------------X-----------------------------------------------X-------------------
+Challenges Faced
+
+- Unable to read from a Kafka topic without prociding the partition number =0 
+even in the command and 
+so had to  provide the partiton number to  get_kafka_consumer method. 
+
+Earlier implementation we didnt have that 
+
+
+
+
+----------------------------X----------------------------X----------------------------X
+
+install a package using pip ==> add it to requirements.txt 
+pip freeze > requirements.txt
+
+
+
+Find & kill the process 
+lsof -i :8000 → kill -9 <PID>
+
+
+
+
+
+FASTAPI
+Lightweight & Fast 🚀 (Built on uvloop and httptools)
+Asynchronous & Supports WebSockets 🔄
+Production-Ready ✅
+
+
+
+
+
